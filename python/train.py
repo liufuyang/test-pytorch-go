@@ -63,9 +63,12 @@ x_test = 4.0
 test_variable = Variable(torch.Tensor([[x_test]]))
 predict_y = linear_model(test_variable)
 print("The result of predictions after training x={}, y_pred={}, y_true={}, as [-5 * x + 42]".format(x_test, linear_model(test_variable).item(), -5 * x_test + 42))
+
 for param in linear_model.parameters():
     print(param, param.size())
 
+model_scripted = torch.jit.script(linear_model) # Export to TorchScript
+model_scripted.save('model_scripted.pt') # Save
 
 ################ vs sklearn #############################
 # from sklearn.linear_model import LinearRegression as LR
